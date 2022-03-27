@@ -11,3 +11,11 @@ export function removeClassStartsWith(element, prefix) {
     }
   })
 }
+
+/**
+ * @param {string} str
+ * @return {string}
+ */
+export function camelToKebabCase(str) {
+  return str.replace(/[A-Z]/g, (l) => `-${l.toLowerCase()}`)
+}

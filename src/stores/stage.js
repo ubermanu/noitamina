@@ -8,14 +8,6 @@ import { writable } from 'svelte/store'
 export const stageMode = writable('SELECTION')
 
 /**
- * TODO: Maybe remove that, kind of unnecessary
- * @param {string} mode
- */
-export const setStageMode = (mode) => {
-  stageMode.set(mode)
-}
-
-/**
  * The element that is currently used as context.
  * All the animations of the children elements will be editable.
  *

@@ -52,10 +52,10 @@
                 <button on:click={createAnimation} title="Add animation">
                     <PlusSquareIcon size="1x"/>
                 </button>
-                <button title="Copy animation">
+                <button title="Copy animation" disabled>
                     <CopyIcon size="1x"/>
                 </button>
-                <button title="Delete animation">
+                <button title="Delete animation" disabled>
                     <TrashIcon size="1x"/>
                 </button>
             </div>
@@ -96,6 +96,7 @@
     min-height: 20rem;
     display: flex;
     flex-direction: row;
+    user-select: none;
   }
 
   .timeline-headers {
@@ -139,14 +140,9 @@
     position: absolute;
     height: 2rem;
     width: 2rem;
-    background: #ddd;
+    background: #444;
     box-sizing: border-box;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    color: #333;
 
     &.selected {
       background: cornflowerblue;

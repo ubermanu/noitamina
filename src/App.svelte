@@ -5,8 +5,9 @@
     import Toolbar from './Toolbar.svelte';
     import { rootElement, stageMode } from './stores/stage.js';
 
-    // Set the root element on body by default
-    export let attachTo = document.body;
+    // TODO: Add an overlay mode where the stage is literally the document
+    // Create the root element as a div
+    export let attachTo = document.createElement('div');
     $: rootElement.set(attachTo);
 </script>
 
@@ -44,7 +45,7 @@
     display: grid;
     grid-template-columns: max-content 1fr max-content;
     grid-template-rows: 1fr max-content;
-    gap: 0 0;
+    gap: 0.2rem;
     grid-auto-flow: row;
     grid-template-areas: "toolbar stage properties" "toolbar timeline properties";
 

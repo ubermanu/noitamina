@@ -1,37 +1,35 @@
 <script>
     import { MousePointerIcon, PlusSquareIcon, SquareIcon } from 'svelte-feather-icons';
-    import { setStageMode, stageMode } from './stores/stage.js';
+    import { stageMode } from './stores/stage.js';
+    import ActionButton from "./Toolbar/ActionButton.svelte";
+    import Separator from "./Toolbar/Separator.svelte";
 </script>
 
 <div class="toolbar">
-    <button class="button"
-            on:click|preventDefault={() => setStageMode('SELECTION')}
-            class:active={$stageMode === 'SELECTION'}
-            title="Set mode to selection">
-        <MousePointerIcon size="1x"/>
-    </button>
-    <button class="button"
-            on:click|preventDefault={() => setStageMode('TRANSFORM')}
-            class:active={$stageMode === 'TRANSFORM'}
-            title="Set mode to transform">
-        <SquareIcon size="1x"/>
-    </button>
-    <div class="separator"></div>
+    <ActionButton
+        icon={MousePointerIcon}
+        action={() => stageMode.set('SELECTION')}
+        active={$stageMode === 'SELECTION'}
+        tooltip="Set mode to selection"
+    />
+    <ActionButton
+        icon={SquareIcon}
+        action={() => stageMode.set('TRANSFORM')}
+        active={$stageMode === 'TRANSFORM'}
+        tooltip="Set mode to transform"
+    />
+    <Separator/>
     <!-- TODO: Add a popup to insert a new element with attrs in the stage context -->
-    <button title="Insert a new element" disabled>
-        <PlusSquareIcon size="1x"/>
-    </button>
+    <ActionButton
+        icon={PlusSquareIcon}
+        action={() => console.log('Add new element')}
+        tooltip="Insert a new element"
+    />
 </div>
 
 <style lang="scss">
   .toolbar {
     display: flex;
     flex-direction: column;
-  }
-
-  .button {
-    &.active {
-      border-color: cornflowerblue;
-    }
   }
 </style>

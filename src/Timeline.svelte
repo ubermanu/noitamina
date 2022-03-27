@@ -32,15 +32,24 @@
         animations.update((items) => items.map((item) => item.id === animation.id ? animation : item));
         selectedAnimation.set(animation);
     }
+
+    /**
+     * @param {Animation} animation
+     * @param {object} keyframe
+     */
+    function selectItem(animation, keyframe = null) {
+        selectedAnimation.set(animation);
+        selectedKeyframe.set(keyframe);
+    }
 </script>
 
 <!-- TODO: Show the keyframes for all the animations grouped by element (of the context) -->
 <!-- TODO: If an element is selected, filter that list with the said element -->
 {#if $rootElement}
-    <div class="timeline">
+    <div class="timeline" on:click={() => selectItem(null, null)}>
         <div class="timeline-headers">
             <div class="timeline-animation-toolbar">
-                <button on:click|preventDefault={createAnimation} title="Add animation">
+                <button on:click={createAnimation} title="Add animation">
                     <PlusSquareIcon size="1x"/>
                 </button>
                 <button title="Copy animation">
@@ -53,7 +62,7 @@
             <div class="items">
                 {#each $animations as animation}
                     <div class="item animation-name"
-                         on:click={() => selectedAnimation.set(animation)}
+                         on:click|stopPropagation={() => selectItem(animation)}
                          class:selected={animation === $selectedAnimation}>
                         <span>{animation.id}</span>
                     </div>
@@ -67,14 +76,13 @@
                 {#each $animations as animation}
                     <!-- TODO: Convert the correct keyframe position according to the animation total playtime -->
                     <div class="item animation-keyframes"
-                         on:dblclick|preventDefault={() => createKeyframe(animation, 0)}>
+                         on:dblclick|stopPropagation={() => createKeyframe(animation, 0)}
+                         on:click|stopPropagation={() => selectItem(animation)}
+                         class:selected={animation === $selectedAnimation}>
                         {#each animation.effect.getKeyframes() as keyframe}
                             <div class="keyframe" style={`left: ${keyframe.offset}%`}
-                                 on:click|preventDefault={() => {
-                                     selectedKeyframe.set(keyframe);
-                                     selectedAnimation.set(animation);
-                                 }}
-                                 class:selected={animation === $selectedAnimation && keyframe.offset === $selectedKeyframe.offset}></div>
+                                 on:click|stopPropagation={() => selectItem(animation, keyframe)}
+                                 class:selected={animation === $selectedAnimation && $selectedKeyframe && keyframe.offset === $selectedKeyframe.offset}></div>
                         {/each}
                     </div>
                 {/each}
@@ -111,6 +119,13 @@
 
     &:nth-child(even) {
       background: #f4f4f4;
+    }
+  }
+
+  .animation-name,
+  .animation-keyframes {
+    &.selected {
+      background: lightskyblue !important;
     }
   }
 

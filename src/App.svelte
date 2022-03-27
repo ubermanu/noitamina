@@ -3,9 +3,10 @@
     import Stage from './Stage.svelte';
     import Timeline from './Timeline.svelte';
     import Toolbar from './Toolbar.svelte';
+    import { stageMode } from './stores/stage.js';
 </script>
 
-<main class="noitamina layout-default">
+<main class={`noitamina layout-default stage-mode-${$stageMode.toString().toLowerCase()}`}>
     <div class="toolbar-container">
         <Toolbar/>
     </div>
@@ -36,8 +37,8 @@
   // TODO: Add different layouts support
   .layout-default {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: max-content 1fr max-content;
+    grid-template-rows: 1fr max-content;
     gap: 0 0;
     grid-auto-flow: row;
     grid-template-areas: "toolbar stage properties" "toolbar timeline properties";

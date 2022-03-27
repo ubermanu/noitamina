@@ -30,6 +30,7 @@
 
         animation.effect.setKeyframes([...keyframes, keyframe]);
         animations.update((items) => items.map((item) => item.id === animation.id ? animation : item));
+        selectedAnimation.set(animation);
     }
 </script>
 
@@ -69,7 +70,11 @@
                          on:dblclick|preventDefault={() => createKeyframe(animation, 0)}>
                         {#each animation.effect.getKeyframes() as keyframe}
                             <div class="keyframe" style={`left: ${keyframe.offset}%`}
-                                 class:selected={keyframe.offset === $selectedKeyframe.offset}></div>
+                                 on:click|preventDefault={() => {
+                                     selectedKeyframe.set(keyframe);
+                                     selectedAnimation.set(animation);
+                                 }}
+                                 class:selected={animation === $selectedAnimation && keyframe.offset === $selectedKeyframe.offset}></div>
                         {/each}
                     </div>
                 {/each}

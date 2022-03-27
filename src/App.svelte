@@ -22,7 +22,7 @@
         <Timeline/>
     </div>
     <!-- TODO: Add `Library` tab to import preset elements -->
-    <div class="properties-container">
+    <div class="panel-container">
         <Properties/>
     </div>
 </main>
@@ -47,7 +47,7 @@
     grid-template-rows: 1fr max-content;
     gap: 0.2rem;
     grid-auto-flow: row;
-    grid-template-areas: "toolbar stage properties" "toolbar timeline properties";
+    grid-template-areas: "toolbar stage panel" "toolbar timeline panel";
 
     .toolbar-container {
       grid-area: toolbar;
@@ -61,8 +61,8 @@
       grid-area: timeline;
     }
 
-    .properties-container {
-      grid-area: properties;
+    .panel-container {
+      grid-area: panel;
     }
   }
 </style>

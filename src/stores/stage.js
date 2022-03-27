@@ -16,6 +16,14 @@ export const setStageMode = (mode) => {
 }
 
 /**
+ * The element that is currently used as context.
+ * All the animations of the children elements will be editable.
+ *
+ * @type {Writable<null|HTMLElement>}
+ */
+export const rootElement = writable(null)
+
+/**
  * The currently selected element in the stage
  * FIXME: This could be a pseudo element like before or after
  *

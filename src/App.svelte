@@ -3,7 +3,11 @@
     import Stage from './Stage.svelte';
     import Timeline from './Timeline.svelte';
     import Toolbar from './Toolbar.svelte';
-    import { stageMode } from './stores/stage.js';
+    import { rootElement, stageMode } from './stores/stage.js';
+
+    // Set the root element on body by default
+    export let attachTo = document.body;
+    $: rootElement.set(attachTo);
 </script>
 
 <main class={`noitamina layout-default stage-mode-${$stageMode.toString().toLowerCase()}`}>

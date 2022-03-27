@@ -16,6 +16,7 @@
     <div class="timeline-container">
         <Timeline/>
     </div>
+    <!-- TODO: Add `Library` tab to import preset elements -->
     <div class="properties-container">
         <Properties/>
     </div>

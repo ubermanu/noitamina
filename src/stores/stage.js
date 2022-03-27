@@ -14,3 +14,11 @@ export const stageMode = writable('SELECTION')
 export const setStageMode = (mode) => {
   stageMode.set(mode)
 }
+
+/**
+ * The currently selected element in the stage
+ * FIXME: This could be a pseudo element like before or after
+ *
+ * @type {Writable<null|HTMLElement>}
+ */
+export const selectedElement = writable(null)

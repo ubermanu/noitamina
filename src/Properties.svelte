@@ -13,6 +13,19 @@
         const preset = extractKeyframeStyles(keyframe);
         return { ...baseOptions, ...preset };
     }
+
+    function updateKeyframeProperty(name, value) {
+        const baseOffset = $selectedKeyframe.offset;
+        selectedKeyframe.update(props => ({ ...props, [name]: value }));
+        selectedAnimation.update(animation => {
+            const keyframes = animation.effect.getKeyframes()
+                .map(keyframe => keyframe.offset === baseOffset ? $selectedKeyframe : keyframe);
+            animation.effect.setKeyframes(keyframes);
+            return animation;
+        });
+        // console.log(name, value, $selectedKeyframe)
+        // console.log($selectedAnimation, $selectedAnimation.effect.getKeyframes());
+    }
 </script>
 
 <!-- TODO: Add tab nav -->
@@ -26,19 +39,27 @@
         {#if $selectedKeyframe}
             <h4>Keyframe</h4>
             <table>
+                <tr>
+                    <td>
+                        <label>Offset</label>
+                    </td>
+                    <td>
+                        <input type="number" value={$selectedKeyframe.offset}
+                               min="0" max="1" step="0.01"
+                               on:input={e => updateKeyframeProperty('offset', +e.target.value)}
+                        />
+                    </td>
+                </tr>
+            </table>
+            <table>
                 {#each Object.entries(getKeyframeOptions($selectedKeyframe)) as [key, value]}
                     <tr class="property">
                         <td>
                             <label>{key}</label>
                         </td>
                         <td>
-                            <input type="text" value={value} name="" on:input={(e) => {
-                                selectedKeyframe.update(props => ({
-                                    ...props,
-                                    [key]: e.target.value
-                                }));
-                                console.log(key, e.target.value, $selectedKeyframe)
-                            }}/>
+                            <input type="text" value={value}
+                                   on:input={(e) => updateKeyframeProperty(key, e.target.value)}/>
                         </td>
                     </tr>
                 {/each}

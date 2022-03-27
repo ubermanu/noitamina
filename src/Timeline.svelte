@@ -1,46 +1,14 @@
 <script>
     import { CopyIcon, PlusSquareIcon, TrashIcon } from 'svelte-feather-icons';
     import { rootElement } from './stores/stage.js';
-    import { animationIndex, animations, selectedAnimation, selectedKeyframe } from './stores/timeline.js';
-
-    /**
-     * TODO: Add a random animation name if not specified
-     */
-    function createAnimation() {
-        animationIndex.update(index => index + 1);
-        const animation = $rootElement.animate([], { id: 'animation-' + $animationIndex });
-        animations.update((items) => [...items, animation]);
-        selectedAnimation.set(animation);
-        console.log($animations)
-    }
-
-    /**
-     * @param {Animation} animation
-     * @param {number} offset
-     */
-    function createKeyframe(animation, offset) {
-        if (!(animation.effect instanceof KeyframeEffect)) {
-            console.error('Animation effect must be a KeyframeEffect');
-            return
-        }
-
-        const keyframes = animation.effect.getKeyframes();
-        const keyframe = { offset };
-        selectedKeyframe.set(keyframe);
-
-        animation.effect.setKeyframes([...keyframes, keyframe]);
-        animations.update((items) => items.map((item) => item.id === animation.id ? animation : item));
-        selectedAnimation.set(animation);
-    }
-
-    /**
-     * @param {Animation} animation
-     * @param {object} keyframe
-     */
-    function selectItem(animation, keyframe = null) {
-        selectedAnimation.set(animation);
-        selectedKeyframe.set(keyframe);
-    }
+    import {
+        animations,
+        createAnimation,
+        createKeyframe,
+        selectedAnimation,
+        selectedKeyframe,
+        selectItem
+    } from './stores/timeline.js';
 </script>
 
 <!-- TODO: Show the keyframes for all the animations grouped by element (of the context) -->
@@ -80,7 +48,7 @@
                          on:click|stopPropagation={() => selectItem(animation)}
                          class:selected={animation === $selectedAnimation}>
                         {#each animation.effect.getKeyframes() as keyframe}
-                            <div class="keyframe" style={`left: ${keyframe.offset}%`}
+                            <div class="keyframe" style={`left: ${parseFloat(keyframe.offset) * 100}%`}
                                  on:click|stopPropagation={() => selectItem(animation, keyframe)}
                                  class:selected={animation === $selectedAnimation && $selectedKeyframe && keyframe.offset === $selectedKeyframe.offset}></div>
                         {/each}
